@@ -9,5 +9,15 @@
 #import <UIKit/UIKit.h>
 
 @interface CS646ViewController : UIViewController
+@property (nonatomic, retain) IBOutlet UITextField *inputText;
+@property (nonatomic, retain) IBOutlet UITextField *inputX;
+@property (nonatomic, retain) IBOutlet UITextField *inputY;
+@property (nonatomic) IBOutlet UILabel *movingLabel;
+- (IBAction)updateButtonPressed:(UIButton *)sender;
+- (NSString *) saveFilePath;
+- (void)applicationDidEnterBackground:(UIApplication *)application;
+
+
+
 
 @end
