@@ -2,7 +2,7 @@
 //  CS646ViewController.m
 //  Assignment3
 //
-//  Created by Tra` Beo' on 9/26/14.
+//  Created by Giang Pham on 9/26/14.
 //  Copyright (c) 2014 Giang Pham. All rights reserved.
 //
 
@@ -17,12 +17,11 @@
 - (void)viewDidLoad
 {
     NSString *myPath = [self saveFilePath];
-    
     BOOL fileExists = [[NSFileManager defaultManager] fileExistsAtPath:myPath];
     
+    //if the data file for the app exists (not the first time running), load data on screen
     if (fileExists)
     {
-        
         NSArray *values = [[NSArray alloc] initWithContentsOfFile:myPath];
         inputText.text = [values objectAtIndex:0];
         inputX.text = [values objectAtIndex:1];
@@ -30,40 +29,36 @@
     }
     
     UIApplication *myApp = [UIApplication sharedApplication];
-    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(applicationDidEnterBackground:)
                                                  name:UIApplicationDidEnterBackgroundNotification
                                                object:myApp];
     [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
-    
 }
 
 - (void)didReceiveMemoryWarning
 {
-    [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+    [super didReceiveMemoryWarning];
 }
 
 - (IBAction)updateButtonPressed:(UIButton *)sender {
 
      _movingLabel.text = inputText.text;
+    
+    //if the X and Y textboxes are not empty, set label to new coordinates
     if ([inputX.text length]>0 && [inputY.text length]>0)
     {
         CGFloat xCoor = (CGFloat) [inputX.text floatValue];
         CGFloat yCoor = (CGFloat) [inputY.text floatValue];
         _movingLabel.center = CGPointMake(xCoor, yCoor);
     }
-   
-    [self.inputText resignFirstResponder];
-    [self.inputX resignFirstResponder];
-    [self.inputY resignFirstResponder];
 
-    //    [self.view endEditing:YES];
-
+    //close the keyboard
+    [self.view endEditing:YES];
 }
 
+// create a path to save the current textbox data before quitting app
 - (NSString *) saveFilePath
 {
     NSArray *path =
@@ -73,6 +68,7 @@
     
 }
 
+// create an array that holds the app data before it quits
 - (void)applicationDidEnterBackground:(UIApplication *)application {
     NSArray *values = [[NSArray alloc] initWithObjects:inputText.text,inputX.text ,inputY.text,nil];
     [values writeToFile:[self saveFilePath] atomically:YES];
